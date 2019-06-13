@@ -910,7 +910,7 @@ def process_log_file(file):
     regexVista2 = '>>>\s\sSection\sstart\s([0-9]+/[0-9]+/[0-9]+\s[0-9]+:[0-9]+:[0-9]+\.[0-9]+)'
     regexWin78 = '>>>\s\s\[Device\sInstall\s\(Hardware\sinitiated\) - STORAGE\\\\Volume\\\\_\?\?_USBSTOR#(.*)\]'
     regexWin78a = '>>>\s\s\[Setup\sonline\sDevice\sInstall\s\(Hardware\sinitiated\) - storage\\\\volume\\\\_\?\?_usbstor#(.*)\]'
-    regexWin10 = '>>>\s\s\[Device\sInstall\s\(Hardware\sinitiated\) - SWD\\WPDBUSENUM\\_\?\?_USBSTOR#(.*)\]'
+    regexWin10 = '>>>\s\s\[Device\sInstall\s\(Hardware\sinitiated\) - SWD\\\\WPDBUSENUM\\\\_\?\?_USBSTOR#(.*)\]'
 
     with open(file) as f:
         lines = f.readlines()
