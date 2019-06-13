@@ -908,7 +908,9 @@ def process_log_file(file):
     regexXp3 = '#I121.*? "(.*)"'
     regexVista1 = '>>> *\[Device Install \(Hardware initiated\) - USBSTOR\\(.+)\]'
     regexVista2 = '>>>\s\sSection\sstart\s([0-9]+/[0-9]+/[0-9]+\s[0-9]+:[0-9]+:[0-9]+\.[0-9]+)'
-    regexWin78 = '>>>\s\s\[Device\sInstall\s\(Hardware\sinitiated\) - SWD\\WPDBUSENUM\\_\?\?_USBSTOR#(.*)\]'
+    regexWin78 = '>>>\s\s\[Device\sInstall\s\(Hardware\sinitiated\) - STORAGE\\\\Volume\\\\_\?\?_USBSTOR#(.*)\]'
+    regexWin78a = '>>>\s\s\[Setup\sonline\sDevice\sInstall\s\(Hardware\sinitiated\) - storage\\\\volume\\\\_\?\?_usbstor#(.*)\]'
+    regexWin10 = '>>>\s\s\[Device\sInstall\s\(Hardware\sinitiated\) - SWD\\WPDBUSENUM\\_\?\?_USBSTOR#(.*)\]'
 
     with open(file) as f:
         lines = f.readlines()
@@ -971,12 +973,10 @@ def process_log_file(file):
                 install_times[key] = timestamp
 
         else:
-            #'>>>\s\s\[Device\sInstall\s\(Hardware\sinitiated\) - SWD\\WPDBUSENUM\\_\?\?_USBSTOR#(.*)\]'
-            if not '>>>  [Device Install (Hardware initiated) - SWD\\WPDBUSENUM\\_??_USBSTOR#' in line:
+            if not '>>>  [' in line:
                 continue
 
-            #'>>>\s\s\[Device\sInstall\s\(Hardware\sinitiated\) - SWD\\WPDBUSENUM\\_\?\?_USBSTOR#(.*)\]'
-            match = re.match('>>>\s\s\[Device\sInstall\s\(Hardware\sinitiated\) - SWD\\\\WPDBUSENUM\\\\_\?\?_USBSTOR#(.*)\]', line, re.I)
+            match = (re.search(regexWin78, line, re.I) or re.search(regexWin78a, line, re.I) or re.match(regexWin10, line, re.I))
             if match:
                 key = 'USBSTOR\\' + match.group(1)
 
